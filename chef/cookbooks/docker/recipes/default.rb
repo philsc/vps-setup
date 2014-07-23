@@ -11,3 +11,9 @@ end
 package "lxc-docker" do
   action :install
 end
+
+# Fix up the docker startup options.
+cookbook_file "docker" do
+    path "/etc/default/docker"
+    action :create
+end
