@@ -1,3 +1,5 @@
+require 'fileutils'
+
 HOSTNAME = 'vps-setup-test'
 KEY_FILE = 'id_rsa.pub'
 
@@ -18,6 +20,8 @@ end
 if not File.file? KEY_FILE then
   abort "Please add the admin key called #{KEY_FILE} to the directory."
 end
+
+FileUtils.cp KEY_FILE, "chef/cookbooks/docker-gitolite/files/default/#{KEY_FILE}"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
@@ -62,6 +66,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     SH
 
   config.vm.provision :chef_solo do |chef|
+    chef.log_level = ENV.fetch("CHEF_LOG", "info").downcase.to_sym
     chef.cookbooks_path = "chef/cookbooks"
     chef.add_recipe "apt"
     chef.add_recipe "docker"
