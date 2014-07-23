@@ -59,6 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "chef/cookbooks"
     chef.add_recipe "apt"
     chef.add_recipe "docker"
+    chef.add_recipe "docker-gitolite"
   end
 
 end
