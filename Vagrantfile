@@ -1,4 +1,5 @@
 HOSTNAME = 'vps-setup-test'
+KEY_FILE = 'id_rsa.pub'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -11,6 +12,11 @@ class String
   def unindent
     gsub(/^#{self[/\A\s*/]}/, '')
   end
+end
+
+# Make sure that the id_rsa.pub exists.
+if not File.file? KEY_FILE then
+  abort "Please add the admin key called #{KEY_FILE} to the directory."
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
